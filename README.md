@@ -7,6 +7,16 @@
 	fse-chat-client
 	fse-char-server
 
+![Alt text](/arch.png?raw=true)
+
+- Frameworks Used:
+	- Express
+	- Socket.io
+	- MongoDB
+	- Mongoose (Schema and simple API for DAO generation)
+	- Angular
+	- Material Design CSS getmdl.io
+
 # fse-chat-server
 Database of choice to persist user data and messages: MongoDB
 
