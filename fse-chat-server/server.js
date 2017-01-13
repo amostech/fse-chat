@@ -13,31 +13,16 @@ var io = require('socket.io')(http);
 
 var bodyParser = require('body-parser')
 
-app.get('/', function (req, res) {
-    res.json({ status: 'online' });
-});
-
-// configure app to use bodyParser()
-// this will let us get the data from POST
+// Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-/**
-* @desc This is a description
-* @namespace My.Namespace
-* @method myMethodName
-* @param {String} some string
-* @param {Object} some object
-* @return {json} response
-*/
 app.use('/messages', function (req, res, next) {
     req.timestamp = Date.now()
     console.log('Appending timestamp: ' + req.timestamp);
     next()
 });
 
-
-// Add headers
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -46,11 +31,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-/*
- * POST - messages
- * Creates a new message, saves in mongodb database
- * and  
- */
+// REST API
 app.post('/messages', function (req, res) {
     console.log(req.body);
     if (!req.body) {
@@ -58,7 +39,6 @@ app.post('/messages', function (req, res) {
         return;
     }
 
-    //Try to find user by username
     if (!req.body.sender) {
         res.json({ error: config.errors['missingSender'] });
         return;
@@ -122,6 +102,7 @@ app.get('/users', function (req, res) {
     });
 });
 
+//SOCKET.IO event handler
 io.on('connection', function (socket) {
     console.log('Socket.io client Connected.');
     socket.on('login', function(obj) {
