@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <!-- build:css(.) styles/vendor.css -->
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/material-design-lite/material.min.css" />
+  <!-- endbower -->
+  <!-- endbuild -->
+  <!-- build:css(.tmp) styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.deep_orange-orange.min.css" />
+<style>
+  md-backdrop{
+    position: fixed;
+  }
+  .mdl-layout__drawer .mdl-navigation .mdl-navigation__link:hover  {
+    background-color: #37474F; /*blue-grey 800*/
+  }
+  </style>
+</head>
+
+<body ng-app="fseChatClientApp">
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header" ng-controller="FseLoginController">
+    <header class="mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
+      <div class="mdl-layout__header-row">
+        <span class="mdl-layout-title">FSE Chat Room</span>
+        <div class="mdl-layout-spacer"></div>
+        <span>Leave</span>
+        <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-menu--bottom-right" id="hdrbtn" ng-click="doLogout()">
+            <i class="material-icons">exit_to_app</i>
+        </button>
+      </div>
+    </header>
+    <div class="mdl-layout__drawer mdl-color--blue-grey-900">
+      <nav class="mdl-navigation">
+
+        <a class="mdl-navigation__link mdl-color-text--white truncate"> <span ng-if="loggedInUser"> 
+          <button class="mdl-button mdl-js-button mdl-color--orange-500 mdl-js-ripple-effect mdl-button--icon mdl-menu--bottom-right" id="hdrbtn">
+          <i class="material-icons">person</i>
+          </button> &nbsp; &nbsp; Hi, {{loggedInUser.username}}</span>
+
+        </a>
+        <a class="mdl-navigation__link mdl-color-text--white truncate" ng-repeat="usr in onlineUsers | orderBy : '-status'">
+          <div style="width: 10px; height: 10px; border-radius: 50%; margin-right: 10px;" ng-class="{ 'mdl-color--light-green-500': usr.status==='online', 'mdl-color--grey-500': usr.status==='offline'}"></div>
+<span class="truncate" ng-class="{ 'mdl-color-text--light-green-500': usr.status==='online', 'mdl-color-text--grey-500': usr.status==='offline'}">{{usr.username}}</span>
+<div class="mdl-layout-spacer "></div>
+</a>
+<div class="mdl-layout-spacer "></div>
+</nav>
+</div>
+<main class="mdl-layout__content mdl-color--grey-100">
+  <div ng-view="">
+  </div>
+</main>
+</div>
+
+<!-- build:js(.) scripts/vendor.js -->
+<!-- bower:js -->
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angular-aria/angular-aria.js"></script>
+<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="bower_components/angular-messages/angular-messages.js"></script>
+<script src="bower_components/angular-resource/angular-resource.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+<script src="bower_components/angular-touch/angular-touch.js"></script>
+<script src="bower_components/material-design-lite/material.min.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script src="bower_components/ngstorage/ngStorage.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
+
+<!-- build:js({.tmp,app}) scripts/scripts.js -->
+<script src="scripts/app.js"></script>
+<script src="scripts/controllers/fse-main-controller.js"></script>
+<script src="scripts/controllers/fse-login-controller.js"></script>
+<script src="scripts/services/fse-chat-service.js"></script>
+
+
+<script src="socket.io.js"></script>
+<script src="scripts/services/fse-chat-socketio.js"></script>
+
+<script src="scripts/directives/ng-enter.js"></script>
+<!-- endbuild -->
+
+<script>
+    var socket = io.connect("http://localhost:3000"); 
+  </script>
+
+</body>
+
+</html>
