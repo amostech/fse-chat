@@ -1,7 +1,6 @@
 # fse-chat-client
-
-This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
-version 0.15.1.
+This folder contains the FSE client
+Angular 1
 
 ## Build & development
 
