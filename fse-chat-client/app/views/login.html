@@ -1,9 +1,10 @@
 <div class="mdl-grid">
   <div class="mdl-cell mdl-cell--3-col  mdl-shadow--2dp" style="padding: 20px; margin: auto; margin-top: 20%;">
 <h6>Welcome, </h6>
+<h6 class="mdl-color-text--red-500">{{errorBox}}</h6>
 <form ng-submit="loginOrCreate()">
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <input class="mdl-textfield__input" type="text" id="sample3" ng-model="user.username">
+    <input class="mdl-textfield__input" type="text" id="sample3" ng-model="user.username" pattern="[a-zA-Z]+" ng-pattern-restrict>
     <label class="mdl-textfield__label" for="sample3">...</label>
   </div>
   <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" type="submit">

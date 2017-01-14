@@ -5,15 +5,19 @@ angular.module('fseChatClientApp')
 
     var service = new ChatService();
 
+    $scope.errorBox = "";
+    
     $scope.user = {
       username: "",
       status: "online"
     };
 
     var retrieveUserList = function () {
-      service.retrieveOnlineUsers(function (data) {
-        $scope.onlineUsers = data;
-      });
+      if($localStorage.loggedInUser) {
+        service.retrieveOnlineUsers(function (data) {
+          $scope.onlineUsers = data;
+        });
+      }
     };
 
 
@@ -26,12 +30,16 @@ angular.module('fseChatClientApp')
       $scope.user.status = "online";
       service.createUser($scope.user, function (data) {
         console.log(data);
-        $localStorage.status = 'LOGGED_IN'
-        $localStorage.loggedInUser = data;
-        $window.location.href = '/'
-        fseSocket.emit('login', { username: $localStorage.loggedInUser.username });
-
+        if(!data.error) {
+          $localStorage.status = 'LOGGED_IN'
+          $localStorage.loggedInUser = data;
+          $window.location.href = '/'
+          fseSocket.emit('login', { username: $localStorage.loggedInUser.username });
+        } else {
+          $scope.errorBox = data.error;
+        }
       });
+
     };
 
     $scope.doLogout = function () {

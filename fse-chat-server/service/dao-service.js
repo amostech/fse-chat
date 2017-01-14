@@ -34,10 +34,8 @@ module.exports = class ChatDAO {
     }
     createUser(userObj, callback) {
 
-        // create a new user called chris
         var userEntity = new User(userObj);
 
-        // call the built-in save method to save to the database
         userEntity.save()
             .catch(function (errors) {
                 var obj = {};

@@ -68,10 +68,29 @@ app.post('/users', function (req, res) {
     }
 
     req.body.created_at = new Date()
-    dao.createUser(req.body, function (data) {
-        io.emit('user-list-changed', data);
-        res.json(data);
-    });
+
+    dao.findUserByUsername(req.body.username, function(usr){
+        if(!usr) {
+            //Safe to Create...
+            dao.createUser(req.body, function (data) {
+                io.emit('user-list-changed', data);
+                res.json(data);
+            });
+        } else {
+            //If user is online already send back an error
+            if(usr.status === 'online')
+                res.json({error: "User is already online. Choose another one."});
+            else {
+                //Then it's okay to perform login as this user...
+
+                dao.changeUserStatus(req.body.username, "online", function(data){
+                    res.json({});
+                });
+            }
+        }
+    })
+
+    
 
 });
 

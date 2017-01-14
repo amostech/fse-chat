@@ -21,6 +21,11 @@ angular.module('fseChatClientApp')
 
     var service = new ChatService();
 
+    if($localStorage.loggedInUser)
+      service.changeUserStatus($localStorage.loggedInUser.username, "online", function(){
+        console.log('User status changed');
+      });
+
     $scope.localMessage = "";
     $scope.sendMessage = function () {
       console.log('Request to send this message: ' + $scope.localMessage);
@@ -52,7 +57,8 @@ angular.module('fseChatClientApp')
     var rollAutoScrollDiv = function () {
       $timeout(function () {
         var scroller = document.getElementById("autoscroll");
-        scroller.scrollTop = scroller.scrollHeight;
+        if(scroller)
+          scroller.scrollTop = scroller.scrollHeight;
       }, 0, false);
     };
 
